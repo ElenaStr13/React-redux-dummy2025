@@ -1,0 +1,12 @@
+.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    margin-left: 50px;
+    gap: 30px;
+}
+a  {
+    font-size: 22px;
+    text-decoration: none;
+    color: #43a8a8;
+}
