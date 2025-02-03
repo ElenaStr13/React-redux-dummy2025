@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../types";
 import {useEffect} from "react";
-import {fetchRecipes} from "../../redux";
+import {fetchRecipes, setRecipesPage} from "../../redux";
 import Recipe from "./Recipe.tsx";
 import {setPage} from "../../redux/slices/usersSlice.ts";
 import Pagination from "../pagination/Pagination.tsx";
@@ -37,7 +37,7 @@ const RecipesList = () => {
         <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(page) => dispatch(setPage(page - 1))}
+            onPageChange={(page) => dispatch(setRecipesPage(page -1))}
         />
     </div>
 );

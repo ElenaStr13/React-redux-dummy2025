@@ -2,10 +2,12 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import {axiosInstance} from "../../service/api.service.ts";
 import {IUser} from "../../models/IUser.ts";
 import {IUsersResponseModel} from "../../models/IUsersResponseModel.ts";
+import {IRecipes} from "../../models/IRecipes.ts";
 
 interface UserState {
     users: IUser[];
     user: IUser | null;
+    recipesUser: IRecipes[];
     loading: boolean;
     error: string | null;
     total: number;
@@ -15,6 +17,7 @@ interface UserState {
 
 const initialState: UserState = {
     users: [],
+    recipesUser: [],
     user: null,
     loading: false,
     error: null,
@@ -54,6 +57,19 @@ export const fetchUserById = createAsyncThunk<IUser, number, { rejectValue: stri
     }
 );
 
+// Список рецептів певного користувача
+export const fetchRecipesByUserId = createAsyncThunk<IRecipes[], number, { rejectValue: string }>(
+    "recipes/fetchRecipesByUserId",
+    async (userId, thunkAPI) => {
+        try {
+            const response = await axiosInstance.get<{ recipes: IRecipes[] }>(`/recipes?userId=${userId}`);
+            return response.data.recipes;
+        } catch (error) {
+            return thunkAPI.rejectWithValue("Не вдалося завантажити рецепти користувача");
+        }
+    }
+);
+
 const usersSlice = createSlice({
     name: "users",
     initialState,
@@ -71,8 +87,14 @@ const usersSlice = createSlice({
         })
     .addCase(fetchUserById.fulfilled, (state:UserState, action: PayloadAction<IUser>) => {
             state.user = action.payload;
+        })
+    .addCase(fetchRecipesByUserId.fulfilled, (state:UserState, action: PayloadAction<IRecipes[]>) => {
+            state.loading = false;
+            state.recipesUser = action.payload;
         });
     },
 });
+
+
 export const { setPage } = usersSlice.actions;
 export default usersSlice.reducer;

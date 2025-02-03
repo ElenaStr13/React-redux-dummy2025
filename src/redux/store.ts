@@ -9,7 +9,6 @@ import recipesReducer from "./slices/recipesSlice";
         user: userReducer,
         users: usersReducer,
         recipes: recipesReducer
-
     }
 });
 

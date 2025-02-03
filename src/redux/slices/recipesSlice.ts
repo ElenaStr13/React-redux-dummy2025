@@ -55,7 +55,7 @@ const recipesSlice = createSlice({
     name: "recipesSlice",
     initialState,
     reducers: {
-        setPage: (state, action: PayloadAction<number>) => {
+        setRecipesPage: (state, action: PayloadAction<number>) => {
             state.skip = action.payload * state.limit;
         },
     },
@@ -76,5 +76,5 @@ const recipesSlice = createSlice({
 export const recipeActions = {
     ...recipesSlice.actions, fetchRecipes, fetchRecipeById
 }
-export const { setPage } = recipesSlice.actions;
+export const { setRecipesPage } = recipesSlice.actions;
 export default recipesSlice.reducer;
